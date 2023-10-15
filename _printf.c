@@ -18,24 +18,24 @@ int _printf(const char *format, ...)
 		return (-1);
 	va_start(list, format);
 
-	for (k = 0, format && format[k] != '\0'; k++)
+	for (k = 0; format && format[k] != '\0'; k++;)
 	{
 		if (format[k] != '%')
 		{
 			buffer[buff_ind++] = format[k];
 			if (buff_ind == BUFF_SIZE)
-				print_buff(buffer, &buff_ind);
+				print_buffer(buffer, &buff_ind);
 			/* write(1, &format[k], 1);*/
 			printed_chars++;
 		}
 		else
 		{
 			print_buffer(buffer, &buff_ind);
-			flags = get flags(format, &k);
+			flags = get_flags(format, &k);
 			width = get_width(format, &k, list);
 			size = get_size(format, &k);
 			++k;
-			p = handled_print(format, &k, list, buffer, flags, width, precision, size);
+			p = handle_print(format, &k, list, buffer, flags, width, precision, size);
 			if (p == -1)
 				return (-1);
 			printed_chars += p;
